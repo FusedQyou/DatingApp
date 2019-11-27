@@ -34,7 +34,13 @@ namespace DatingApp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            // Configure the controllers with NewtonsoftJson.
+            // Also configure NewtonsoftJson to handle self referencing data properly.
+            services.AddControllers().AddNewtonsoftJson(opt => {
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
+            // Add corse, which will allow our Angular app to access the API from a different source.
             services.AddCors();
             
             // Inject our context as a service so we can use this to communicate with the database.
@@ -51,8 +57,9 @@ namespace DatingApp.API
                 };
             });
 
-            // Add dependency injection support for our AuthRespository class.
+            // Add dependency injection support for our classes.
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IDatingRepository, DatingRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
