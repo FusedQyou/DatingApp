@@ -1,0 +1,110 @@
+[
+    {
+      "Username": "Zombieman",
+      "Gender": "zombie",
+      "DateOfBirth": "1991-09-19",
+      "FirstName": "Zombie",
+      "LastName": "Man",
+      "Created": "2017-02-17",
+      "LastActive": "2017-02-17",
+      "Introduction": "Minim laboris fugiat sit enim occaecat adipisicing do aliqua tempor ea qui nostrud eiusmod quis. Excepteur quis ea est enim esse tempor anim id dolor aliquip. Ut qui aliqua fugiat est labore duis. Nisi adipisicing ut Lorem dolor sit proident veniam nulla enim est cillum occaecat quis. Non cillum mollit voluptate excepteur aliqua. Commodo enim officia amet adipisicing labore mollit anim officia eiusmod aliquip laboris. Minim do in excepteur id mollit nostrud et aliqua anim consectetur velit ipsum consequat.\r\n",
+      "Interests": "Blood, brains, killing DoomSlayer.",
+      "Photos": [
+        {
+          "url": "https://randomuser.me/api/portraits/men/75.jpg",
+          "isMain": true,
+          "description": "Me when I was human."
+        }
+      ]
+    },
+    {
+      "Username": "ShotgunGuy",
+      "Gender": "zombie",
+      "DateOfBirth": "1980-12-06",
+      "FirstName": "Shotgun",
+      "LastName": "Guy",
+      "Created": "2017-04-02",
+      "LastActive": "2017-04-02",
+      "Introduction": "Ea ex quis magna cupidatat dolor est non consequat id veniam id. Nostrud sint cillum elit elit officia in sint voluptate veniam consequat qui eiusmod velit cillum. Amet sunt velit commodo tempor cillum ex magna dolor excepteur amet aute. Proident sunt commodo labore sunt Lorem qui dolor. Minim cillum aute sunt culpa minim excepteur aliqua ipsum sunt.\r\n",
+      "Interests": "Shotguns, Brains",
+      "Photos": [
+        {
+          "url": "https://randomuser.me/api/portraits/men/76.jpg",
+          "isMain": true,
+          "description": "Me when I was human."
+        }
+      ]
+    },
+    {
+      "Username": "BaronOfHell",
+      "Gender": "Demon",
+      "DateOfBirth": "1955-10-07",
+      "FirstName": "Baron",
+      "Insertion": "of",
+      "LastName": "Hell",
+      "Created": "2017-04-13",
+      "LastActive": "2017-04-13",
+      "Introduction": "Laborum mollit elit voluptate duis ad do do nulla dolore officia enim consectetur. Lorem quis do qui labore. Culpa excepteur deserunt in aute. Lorem officia laboris excepteur est incididunt sint commodo. Et Lorem in do incididunt qui. Enim consequat nostrud id excepteur fugiat ullamco ex cillum anim cupidatat cillum irure enim eiusmod.\r\n",
+      "Interests": "Big horns",
+      "Photos": [
+        {
+          "url": "https://randomuser.me/api/portraits/men/80.jpg",
+          "isMain": true,
+          "description": "Me when I was black."
+        }
+      ]
+    },
+    {
+      "Username": "Revenant",
+      "Gender": "unspecified",
+      "DateOfBirth": "1962-04-04",
+      "FirstName": "Revenant",
+      "Created": "2017-06-21",
+      "LastActive": "2017-06-21",
+      "Introduction": "Lorem aliqua eu sit ad. Commodo fugiat voluptate magna ut. Exercitation duis minim et et esse ea.\r\n",
+      "Interests": "Bones, trumpets.",
+      "Photos": [
+        {
+          "url": "https://randomuser.me/api/portraits/men/94.jpg",
+          "isMain": true,
+          "description": "Me when I had skin."
+        }
+      ]
+    },
+    {
+      "Username": "DoomSlayer",
+      "Gender": "female",
+      "DateOfBirth": "1989-11-29",
+      "FirstName": "DoomSlayer",
+      "Created": "2017-08-29",
+      "LastActive": "2017-08-29",
+      "Introduction": "Commodo ex in fugiat aute elit ipsum aliqua consectetur eu voluptate. Exercitation enim mollit est ut sint. Quis sint consequat occaecat eu sunt fugiat sint occaecat proident commodo occaecat reprehenderit ea ex. Qui sunt ipsum est ex do amet. Est laboris eiusmod occaecat aliqua id deserunt est ea laborum velit. Velit aute do duis officia officia proident.\r\n",
+      "Interests": "Big fucking guns and violence.",
+      "Photos": [
+        {
+          "url": "https://randomuser.me/api/portraits/men/30.jpg",
+          "isMain": true,
+          "description": "Real me."
+        }
+      ]
+    },
+    {
+        "Username": "IconOfSin",
+        "Gender": "unspecified",
+        "DateOfBirth": "1989-11-29",
+        "FirstName": "Icon",
+        "Insertion": "of",
+        "LastName": "Sin",
+        "Created": "2017-08-29",
+        "LastActive": "2017-08-29",
+        "Introduction": "Commodo ex in fugiat aute elit ipsum aliqua consectetur eu voluptate. Exercitation enim mollit est ut sint. Quis sint consequat occaecat eu sunt fugiat sint occaecat proident commodo occaecat reprehenderit ea ex. Qui sunt ipsum est ex do amet. Est laboris eiusmod occaecat aliqua id deserunt est ea laborum velit. Velit aute do duis officia officia proident.\r\n",
+        "Interests": "None.",
+        "Photos": [
+          {
+            "url": "https://randomuser.me/api/portraits/men/12.jpg",
+            "isMain": true,
+            "description": "That's me."
+          }
+        ]
+      }
+  ]
