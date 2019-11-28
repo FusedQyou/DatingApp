@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.DTOs;
 using DatingApp.API.Models;
@@ -22,10 +23,10 @@ namespace DatingApp.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IDatingRepository _repo;
-        private readonly IConfiguration _config;
-        public UsersController(IDatingRepository repo, IConfiguration config)
+        private readonly IMapper _mapper;
+        public UsersController(IDatingRepository repo, IMapper mapper)
         {
-            this._config = config;
+            this._mapper = mapper;
             this._repo = repo;
         }
 
@@ -33,14 +34,16 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> GetUsers()
         {
             var users = await _repo.GetUsers();
-            return Ok(users);
+            var detailedUser = _mapper.Map<IEnumerable<ListUser>>(users);
+            return Ok(detailedUser);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
             var user = await _repo.GetUser(id);
-            return Ok(user);
+            var detailedUser = _mapper.Map<DetailedUser>(user);
+            return Ok(detailedUser);
         }
     }
 }

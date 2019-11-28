@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -42,6 +43,9 @@ namespace DatingApp.API
 
             // Add corse, which will allow our Angular app to access the API from a different source.
             services.AddCors();
+
+            // Automapper to map data between DTOs
+            services.AddAutoMapper(typeof(DatingRepository).Assembly);
             
             // Inject our context as a service so we can use this to communicate with the database.
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
