@@ -48,7 +48,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                     }
 
                     // Try to throw either the server error or the validation error
-                    return throwError(modalStateErrors || serverError || 'Server encountered an error.');
+                    return throwError(modalStateErrors || error.statusText || 'Server encountered an error.');
                 }
             })
         );
