@@ -16,9 +16,9 @@
           "description": "Me when I was human."
         },
         {
-            "url": "https://randomuser.me/api/portraits/men/76.jpg",
-            "AsMainPhoto": false,
-            "description": "Another picture."
+          "url": "https://randomuser.me/api/portraits/men/76.jpg",
+          "AsMainPhoto": false,
+          "description": "Another picture."
         }
       ]
     },
@@ -39,9 +39,9 @@
           "description": "Me when I was human."
         },
         {
-            "url": "https://randomuser.me/api/portraits/men/77.jpg",
-            "AsMainPhoto": false,
-            "description": "Another picture of me."
+          "url": "https://randomuser.me/api/portraits/men/77.jpg",
+          "AsMainPhoto": false,
+          "description": "Another picture of me."
         }
       ]
     },
@@ -83,7 +83,7 @@
     },
     {
       "Username": "DoomSlayer",
-      "Gender": "female",
+      "Gender": "all of them",
       "DateOfBirth": "1989-11-29",
       "FirstName": "DoomSlayer",
       "Created": "2017-08-29",
