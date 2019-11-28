@@ -12,8 +12,13 @@
       "Photos": [
         {
           "url": "https://randomuser.me/api/portraits/men/75.jpg",
-          "isMain": true,
+          "AsMainPhoto": true,
           "description": "Me when I was human."
+        },
+        {
+            "url": "https://randomuser.me/api/portraits/men/76.jpg",
+            "AsMainPhoto": false,
+            "description": "Another picture."
         }
       ]
     },
@@ -30,8 +35,13 @@
       "Photos": [
         {
           "url": "https://randomuser.me/api/portraits/men/76.jpg",
-          "isMain": true,
+          "AsMainPhoto": true,
           "description": "Me when I was human."
+        },
+        {
+            "url": "https://randomuser.me/api/portraits/men/77.jpg",
+            "AsMainPhoto": false,
+            "description": "Another picture of me."
         }
       ]
     },
@@ -49,7 +59,7 @@
       "Photos": [
         {
           "url": "https://randomuser.me/api/portraits/men/80.jpg",
-          "isMain": true,
+          "AsMainPhoto": true,
           "description": "Me when I was black."
         }
       ]
@@ -66,7 +76,7 @@
       "Photos": [
         {
           "url": "https://randomuser.me/api/portraits/men/94.jpg",
-          "isMain": true,
+          "AsMainPhoto": true,
           "description": "Me when I had skin."
         }
       ]
@@ -83,7 +93,7 @@
       "Photos": [
         {
           "url": "https://randomuser.me/api/portraits/men/30.jpg",
-          "isMain": true,
+          "AsMainPhoto": true,
           "description": "Real me."
         }
       ]
@@ -102,7 +112,7 @@
         "Photos": [
           {
             "url": "https://randomuser.me/api/portraits/men/12.jpg",
-            "isMain": true,
+            "AsMainPhoto": true,
             "description": "That's me."
           }
         ]
