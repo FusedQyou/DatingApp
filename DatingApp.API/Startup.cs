@@ -44,6 +44,9 @@ namespace DatingApp.API
             // Add corse, which will allow our Angular app to access the API from a different source.
             services.AddCors();
 
+            // Cloudinary information
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+
             // Automapper to map data between DTOs
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
             

@@ -49,7 +49,7 @@ namespace DatingApp.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UpdateUser updateUser)
         {
-            // Verify the user that requests the update is the same as the updated user
+            // Verify the user that requests the update is the same as the user received from the token.
             var tokenId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             if (id != tokenId) {
                 return Unauthorized();
