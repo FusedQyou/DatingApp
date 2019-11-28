@@ -45,5 +45,25 @@ namespace DatingApp.API.Controllers
             var detailedUser = _mapper.Map<DetailedUser>(user);
             return Ok(detailedUser);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UpdateUser updateUser)
+        {
+            // Verify the user that requests the update is the same as the updated user
+            var tokenId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            if (id != tokenId) {
+                return Unauthorized();
+            }
+
+            var repoUser = await _repo.GetUser(id);
+            _mapper.Map(updateUser, repoUser);
+
+            if (await _repo.SaveAll()) {
+                return NoContent();
+            }
+
+            // Something has gone wrong
+            throw new Exception($"User update with id \"{id}\" failed.");
+        }
     }
 }
