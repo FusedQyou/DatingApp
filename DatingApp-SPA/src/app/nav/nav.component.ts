@@ -12,6 +12,7 @@ export class NavComponent implements OnInit {
 
     title = 'Dating App';
     model: any = {};
+    mainPhotoUrl: string;
 
     constructor(
         public authService: AuthService,
@@ -19,7 +20,11 @@ export class NavComponent implements OnInit {
         private router: Router
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+
+        // Subscribe to the photo url service that will supply our main photo, since the navbar is not associated with the page that edits this.
+        this.authService.currentPhotoUrl.subscribe(photoUrl => this.mainPhotoUrl = photoUrl);
+    }
 
     login() {
         this.authService.login(this.model).subscribe(next => {

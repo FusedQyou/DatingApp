@@ -14,7 +14,6 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 
 export class PhotoEditorComponent implements OnInit {
     @Input() photos: Photo[];
-    @Output() getMemberPhotoChange = new EventEmitter<string>();
     uploader: FileUploader;
     hasBaseDropZoneOver = false;
     baseUrl = environment.apiUrl;
@@ -68,7 +67,15 @@ export class PhotoEditorComponent implements OnInit {
             this.currentMain = this.photos.filter(p => p.asMainPhoto === true)[0];
             this.currentMain.asMainPhoto = false;
             photo.asMainPhoto = true;
-            this.getMemberPhotoChange.emit(photo.url);
+
+            // Update the main photo globally
+            this.authService.changeMemberPhoto(photo.url);
+            this.authService.currentUser.mainPhotoUrl = photo.url;
+
+            // Update the locally saved user to display the right photo
+            localStorage.setItem('user', JSON.stringify(this.authService.currentUser));
+
+            this.alertify.success('Main photo has been updated.');
         }, error => {
             this.alertify.error(error);
         });

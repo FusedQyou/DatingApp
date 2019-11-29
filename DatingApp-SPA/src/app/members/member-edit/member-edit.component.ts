@@ -14,8 +14,9 @@ import { AuthService } from 'src/app/_services/auth.service';
 
 export class MemberEditComponent implements OnInit {
 
-    user: User;
+    // Get our edit form from the child
     @ViewChild('editForm', { static: true }) editForm: NgForm;
+
     // Makes sure that when leaving the site it also prompts a message
     @HostListener('window:beforeunload', ['$event'])
     unloadNotification($event: any) {
@@ -23,6 +24,9 @@ export class MemberEditComponent implements OnInit {
             $event.returnValue = true;
         }
     }
+
+    user: User;
+    mainPhotoUrl: string;
 
     constructor(
         private route: ActivatedRoute,
@@ -35,6 +39,8 @@ export class MemberEditComponent implements OnInit {
         this.route.data.subscribe(data => {
             this.user = data[`user`];
         });
+
+        this.authService.currentPhotoUrl.subscribe(photoUrl => this.mainPhotoUrl = photoUrl);
     }
 
     updateUser() {
@@ -44,9 +50,5 @@ export class MemberEditComponent implements OnInit {
         }, error => {
             this.alertify.error(error);
         });
-    }
-
-    updateMainPhoto(photoUrl: string) {
-        this.user.mainPhotoUrl = photoUrl;
     }
 }
