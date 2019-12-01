@@ -2,6 +2,18 @@
     <h2 class="text-center text-primary">Sign Up</h2>
     <hr>
 
+    <!-- Gender -->
+    <div class="form-group">
+        <label class="control-label" style="margin-right:10px">I am a: </label>
+        <label class="radio-inline">
+            <input class="mr-3" type="radio" value="male" formControlName="gender">Male
+        </label>
+        <label class="radio-inline ml-3">
+            <input class="mr-3" type="radio" value="female" formControlName="gender">Female
+        </label>
+    </div>
+
+    <!-- Username -->
     <div class="form-group">
         <input type="text" class="form-control" formControlName="username" placeholder="Username"
         [ngClass]="{'is-invalid': registerForm.get('username').errors && registerForm.get('username').touched}">
@@ -9,6 +21,7 @@
         <div class="invalid-feedback"><span>Please choose an username.</span></div>
     </div>
 
+    <!-- Password -->
     <div class="form-group">
         <input type="password" class="form-control" formControlName="password" placeholder="Password"
         [ngClass]="{'is-invalid': registerForm.get('password').errors && registerForm.get('password').touched}">
@@ -24,6 +37,7 @@
         </div>
     </div>
 
+    <!-- Password confirmation -->
     <div class="form-group">
         <input type="password" class="form-control" formControlName="confirmPassword" placeholder="confirm password"
         [ngClass]="{'is-invalid':
@@ -40,6 +54,30 @@
         *ngIf="registerForm.hasError('mismatch') && registerForm.get('confirmPassword').touched">
             <span>Password and password confirmation do not match.</span>
         </div>
+    </div>
+
+    <!-- First name -->
+    <div class="form-group">
+        <input [ngClass]="{'is-invalid': registerForm.get('firstName').errors && registerForm.get('firstName').touched}" class="form-control"
+            placeholder="First name" formControlName="firstName">
+        <div class="invalid-feedback" *ngIf="registerForm.get('firstName').touched && registerForm.get('firstName').hasError('required')">First name is required</div>
+    </div>
+
+    <!-- Insertion -->
+    <div class="form-group">
+        <input class="form-control" placeholder="Insertion" formControlName="insertion">
+    </div>
+
+    <!-- Last name -->
+    <div class="form-group">
+        <input class="form-control" placeholder="Last name" formControlName="lastName">
+    </div>
+
+    <!-- Date of birth -->
+    <div class="form-group">
+        <input [ngClass]="{'is-invalid': registerForm.get('dateOfBirth').errors && registerForm.get('dateOfBirth').touched}" class="form-control"
+            placeholder="Date of Birth" formControlName="dateOfBirth" type="text" bsDatepicker [bsConfig]="bsConfig">
+        <div class="invalid-feedback" *ngIf="registerForm.get('dateOfBirth').touched && registerForm.get('dateOfBirth').hasError('required')">Date of birth is required</div>
     </div>
 
     <div class="form-group text-center">
