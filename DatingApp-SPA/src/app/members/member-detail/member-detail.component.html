@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-4">
             <div class="card">
-                <img class="card-img-top img-thumbnail" src="{{user.mainPhotoUrl}}" alt="{{user.firstName}}">
+                <img class="card-img-top img-thumbnail" src="{{user.mainPhotoUrl || '../../../../../assets/user.png'}}" alt="{{user.firstName}}">
                 <div class="card-body">
                     <div>
                         <p>{{user.firstName}} {{user.insertion}} {{user.lastName}}</p>

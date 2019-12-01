@@ -57,6 +57,16 @@ export class PhotoEditorComponent implements OnInit {
                 };
 
                 this.photos.push(photo);
+
+                // If this is the first photo, asMainPhoto is true.
+                if (photo.asMainPhoto) {
+                    // Update the main photo globally
+                    this.authService.changeMemberPhoto(photo.url);
+                    this.authService.currentUser.mainPhotoUrl = photo.url;
+
+                    // Update the locally saved user to display the right photo
+                    localStorage.setItem('user', JSON.stringify(this.authService.currentUser));
+                }
             }
         };
     }

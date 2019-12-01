@@ -39,6 +39,9 @@ namespace DatingApp.API.Helpers
 
             // Uploaded photo
             CreateMap<PhotoCreation, Photo>();
+
+            // Registered user to normal user
+            CreateMap<RegistrationUser, User>();
         }
     }
 }
