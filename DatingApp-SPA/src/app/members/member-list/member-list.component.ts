@@ -32,6 +32,7 @@ export class MemberListComponent implements OnInit {
         this.userParams.gender = this.user.gender === 'male' ? 'female' : 'male';
         this.userParams.minAge = 18;
         this.userParams.maxAge = 150;
+        this.userParams.orderBy = 'lastActive';
     }
 
     pageChanged(event: any): void {
@@ -43,6 +44,7 @@ export class MemberListComponent implements OnInit {
         this.userParams.gender = this.user.gender === 'male' ? 'female' : 'male';
         this.userParams.minAge = 18;
         this.userParams.maxAge = 150;
+        this.userParams.orderBy = 'lastActive';
         this.loadUsers();
     }
 

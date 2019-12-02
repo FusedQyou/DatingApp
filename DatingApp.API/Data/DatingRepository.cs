@@ -46,15 +46,26 @@ namespace DatingApp.API.Data
         {
             var users = _context.Users.Include(u => u.Photos).AsQueryable();
 
+            // Filter
             var minimumDateOfBirth = DateTime.Today.AddYears(-userParams.MaximumAge - 1 ?? -150);
             var maximumDateOfBirth = DateTime.Today.AddYears(-userParams.MinimumAge ?? -18);
-
-            // Filter
             users = users.Where(u => u.Id != userParams.UserId)
                          .Where(u => u.Gender == userParams.Gender)
                          .Where(u => u.DateOfBirth >= minimumDateOfBirth &&
                                      u.DateOfBirth <= maximumDateOfBirth);
+            
+            // Sorting
+            switch(userParams.OrderBy?.ToLower())
+            {
+                case "created":
+                    users = users.OrderByDescending(u => u.Created);
+                    break;
+                default:
+                    users = users.OrderByDescending(u => u.LastActive);
+                    break;
+            }
 
+            // Create pagination page
             return await PagedList<User>.CreatePageAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
