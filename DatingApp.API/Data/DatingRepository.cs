@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,9 +46,14 @@ namespace DatingApp.API.Data
         {
             var users = _context.Users.Include(u => u.Photos).AsQueryable();
 
+            var minimumDateOfBirth = DateTime.Today.AddYears(-userParams.MaximumAge - 1 ?? -150);
+            var maximumDateOfBirth = DateTime.Today.AddYears(-userParams.MinimumAge ?? -18);
+
             // Filter
             users = users.Where(u => u.Id != userParams.UserId)
-                         .Where(u => u.Gender == userParams.Gender);
+                         .Where(u => u.Gender == userParams.Gender)
+                         .Where(u => u.DateOfBirth >= minimumDateOfBirth &&
+                                     u.DateOfBirth <= maximumDateOfBirth);
 
             return await PagedList<User>.CreatePageAsync(users, userParams.PageNumber, userParams.PageSize);
         }
