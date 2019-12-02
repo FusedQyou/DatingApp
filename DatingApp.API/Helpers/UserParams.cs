@@ -18,5 +18,7 @@ namespace DatingApp.API.Helpers
             set { _pageSize = Math.Clamp(value, 0, MaxPageSize); }
         }
 
+        public int UserId { get; set; }
+        public string Gender { get; set; }
     }
 }
