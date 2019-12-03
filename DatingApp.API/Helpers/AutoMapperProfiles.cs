@@ -44,10 +44,12 @@ namespace DatingApp.API.Helpers
             CreateMap<RegistrationUser, User>();
 
             // Created message
-            CreateMap<CreateMessage, Message>();
+            CreateMap<CreateMessage, Message>().ReverseMap();
 
             // Returned message
-            CreateMap<Message, ReturnedMessage>();
+            CreateMap<Message, ReturnedMessage>()
+                .ForMember(m => m.SenderMainPhotoUrl,    opt => opt.MapFrom(u => u.Sender.Photos.FirstOrDefault(p => p.AsMainPhoto).Url))
+                .ForMember(m => m.RecipientMainPhotoUrl, opt => opt.MapFrom(u => u.Recipient.Photos.FirstOrDefault(p => p.AsMainPhoto).Url));
         }
     }
 }

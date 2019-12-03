@@ -43,6 +43,24 @@ namespace DatingApp.API.Controllers
             return Ok(repoMessage);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetMessagesForUser(int userId, [FromQuery]MessageParams messageParams)
+        {
+            // Verify the user that requests the creation is the same as the user received from the token.
+            var tokenId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            if (userId != tokenId) {
+                return Unauthorized();
+            }
+
+            messageParams.UserId = userId;
+
+            var repoMessages = await _repo.GetMessagesForUser(messageParams);
+            var messages = _mapper.Map<IEnumerable<ReturnedMessage>>(repoMessages);
+
+            Response.AddPagination(repoMessages.CurrentPage, repoMessages.PageSize, repoMessages.TotalItemCount, repoMessages.TotalPageCount);
+            return Ok(messages);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateMessage(int userId, CreateMessage createMessage)
         {
@@ -63,7 +81,7 @@ namespace DatingApp.API.Controllers
             _repo.Add(message);
 
             if (await _repo.SaveAll()) {
-                var returnedMessage = _mapper.Map<ReturnedMessage>(message);
+                var returnedMessage = _mapper.Map<CreateMessage>(message);
                 return CreatedAtRoute("GetMessage", new { userId, id = message.Id }, returnedMessage);
             }
 
