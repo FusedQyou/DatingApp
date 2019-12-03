@@ -42,6 +42,12 @@ namespace DatingApp.API.Helpers
 
             // Registered user to normal user
             CreateMap<RegistrationUser, User>();
+
+            // Created message
+            CreateMap<CreateMessage, Message>();
+
+            // Returned message
+            CreateMap<Message, ReturnedMessage>();
         }
     }
 }
