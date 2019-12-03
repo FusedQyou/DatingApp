@@ -1,0 +1,56 @@
+<div class="card">
+    <div class="card-body">
+        <div *ngIf="messages?.length === 0">
+            <p>There are no messages yet...</p>
+            <p>Start a conversation with the button below</p>
+        </div>
+        
+        <ul class="chat">
+            <li *ngFor="let message of messages">
+                <!-- To them -->
+                <div *ngIf="message.senderId == recipientId">
+                    <span class="chat-img float-left">
+                        <img src="{{message.senderMainPhotoUrl}}" alt="{{message.senderFirstName}}" class="rounded-circle">
+                    </span>
+                    <div class="chat-body">
+                        <div class="header">
+                            <strong class="primary-font">{{message.senderFirstName}}</strong>
+                            <small class="text-muted float-right">
+                                <span class="fa fa-clock-o">{{message.dateSend | timeAgo}}</span>
+                            </small>
+                        </div>
+                        <p>{{message.content}}</p>
+                    </div>
+                </div>
+    
+                <!-- To me -->
+                <div *ngIf="message.senderId != recipientId">
+                    <span class="chat-img float-right">
+                        <img src="{{message.senderMainPhotoUrl}}" alt="{{message.senderFirstName}}" class="rounded-circle">
+                    </span>
+                    <div class="chat-body">
+                        <div class="header">
+                            <small class="text-muted">
+                                <span class="fa fa-clock-o">{{message.dateSend | timeAgo}}</span>
+                                <span *ngIf="!message.isRead" class="text-danger">(unread)</span>
+                                <span *ngIf="message.isRead" class="text-success">(read {{message.dateRead | timeAgo}})</span>
+                            </small>
+                            <strong class="primary-font float-right">{{message.senderFirstName}}</strong>
+                        </div>
+                        <p>{{message.content}}</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="card-footer">
+        <form action="">
+            <div class="input-group">
+                <input type="text" class="form-control input-sm" placeholder="Send a private message">
+                <div class="input-group-append">
+                    <button class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
