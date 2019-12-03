@@ -126,7 +126,7 @@ namespace DatingApp.API.Data
                     break;
 
                 default:
-                    messages = messages.Where(u => u.SenderId == messageParams.UserId && u.IsRead == false);
+                    messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.IsRead == false);
                     break;
             }
 
