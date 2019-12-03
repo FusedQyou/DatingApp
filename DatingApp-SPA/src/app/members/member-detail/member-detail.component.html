@@ -21,7 +21,7 @@
                     </div>
                     <div>
                         <strong>Last active:</strong>
-                        <p>{{user.lastActive | timeAgo}}</p>
+                        <p>{{user.lastActive.toDateString() | timeAgo}}</p>
                     </div>
                 </div>
                 <div class="card-footer">

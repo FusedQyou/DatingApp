@@ -105,8 +105,17 @@ namespace DatingApp.API
             // Obviously, allowing all allows more than Angular, but this will work for now.
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
+            // Indicates the API can serve Angular's build-ready files supplied in wwwroot, starting at index.html
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
+
+                // This API does not support routing, because it's an API. Duh.
+                // Due to this reason refreshing on a routed page results in an error.
+                // This fallback workaround makes sure that any routes are redirected to the base HTML, so angular can take care of the routing like it should.
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }
