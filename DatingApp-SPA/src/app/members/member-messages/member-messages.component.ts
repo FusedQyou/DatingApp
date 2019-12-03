@@ -14,6 +14,7 @@ export class MemberMessagesComponent implements OnInit {
 
     @Input() recipientId: number;
     messages: Message[];
+    newMessage: any = {};
 
     constructor(
         private userService: UserService,
@@ -30,6 +31,17 @@ export class MemberMessagesComponent implements OnInit {
                 this.messages = messages;
             }, error => {
                 this.alertify.error(error);
+        });
+    }
+
+    sendMessage() {
+        this.newMessage.recipientId = this.recipientId;
+        this.userService.sendMessage(this.authService.decodedToken.nameid, this.newMessage)
+            .subscribe((message: Message) => {
+                this.messages.unshift(message);
+                this.newMessage.content = '';
+        }, error => {
+            this.alertify.error(error);
         });
     }
 }

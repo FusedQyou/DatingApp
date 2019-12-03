@@ -78,9 +78,11 @@ namespace DatingApp.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMessage(int userId, CreateMessage createMessage)
         {
+            var sender = await _repo.GetUser(userId);
+            
             // Verify the user that requests the creation is the same as the user received from the token.
             var tokenId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            if (userId != tokenId) {
+            if (sender.Id != tokenId) {
                 return Unauthorized();
             }
 
@@ -95,7 +97,10 @@ namespace DatingApp.API.Controllers
             _repo.Add(message);
 
             if (await _repo.SaveAll()) {
-                var returnedMessage = _mapper.Map<CreateMessage>(message);
+
+                // Q: Wait, after mapping recipient and sender got values. Where the hell did that come from?
+                // A: Beauty of Automapper. It noticed we have a sender and recipient in memory, so it added those.
+                var returnedMessage = _mapper.Map<ReturnedMessage>(message);
                 return CreatedAtRoute("GetMessage", new { userId, id = message.Id }, returnedMessage);
             }
 
