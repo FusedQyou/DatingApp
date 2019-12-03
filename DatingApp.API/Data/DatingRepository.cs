@@ -126,7 +126,7 @@ namespace DatingApp.API.Data
                     break;
 
                 default:
-                    messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.IsRead == false);
+                    messages = messages.Where(u => u.SenderId == messageParams.UserId && u.IsRead == false);
                     break;
             }
 
@@ -136,7 +136,15 @@ namespace DatingApp.API.Data
 
         public async Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId)
         {
-            throw new NotImplementedException();
+            var messages = await _context.Messages
+                .Include(u => u.Sender).ThenInclude(p => p.Photos)
+                .Include(userId=> userId.Recipient).ThenInclude(p => p.Photos)
+                    .Where(m => m.RecipientId == userId      && m.SenderId == recipientId ||
+                                m.RecipientId == recipientId && m.SenderId == userId)
+                        .OrderByDescending(m => m.DateSend)
+                            .ToListAsync();
+            
+            return messages;
         }
     }
 }
