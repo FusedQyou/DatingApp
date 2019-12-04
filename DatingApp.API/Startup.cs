@@ -36,10 +36,10 @@ namespace DatingApp.API
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
             // Inject our context as a service so we can use this to communicate with the database.
-            services.AddDbContext<DataContext>(x => x.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-            
-            // Uncomment this when we start using Sqlite again. Just be sure to fix the migrations.
-            // services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(x => {
+                x.UseLazyLoadingProxies();
+                x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             ConfigureServices(services);
         }
@@ -48,7 +48,10 @@ namespace DatingApp.API
         public void ConfigureProductionServices(IServiceCollection services)
         {
             // Inject our context as a service so we can use this to communicate with the database.
-            services.AddDbContext<DataContext>(x => x.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(x => {
+                x.UseLazyLoadingProxies();
+                x.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+            });
             
             ConfigureServices(services);
         }
