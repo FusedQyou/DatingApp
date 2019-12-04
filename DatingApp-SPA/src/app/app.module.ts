@@ -33,6 +33,9 @@ import { MessagesResolver } from './_resolvers/messages.resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { HasRoleDirective } from './_directives/hasRole.directive';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
+import { AdminService } from './_services/admin.service';
 
 export function tokenGetter() {
     return localStorage.getItem('token');
@@ -48,54 +51,59 @@ export class CustomHammerConfig extends HammerGestureConfig  {
 
 @NgModule({
    declarations: [
-      AppComponent,
-      NavComponent,
-      HomeComponent,
-      RegisterComponent,
-      MessagesComponent,
-      MemberListComponent,
-      ListsComponent,
-      MemberCardComponent,
-      MemberDetailComponent,
-      MemberEditComponent,
-      PhotoEditorComponent,
-      MemberMessagesComponent,
-      AdminPanelComponent,
 
-      // Directives
-      HasRoleDirective,
+        // Components
+        AppComponent,
+        NavComponent,
+        HomeComponent,
+        RegisterComponent,
+        MessagesComponent,
+        MemberListComponent,
+        ListsComponent,
+        MemberCardComponent,
+        MemberDetailComponent,
+        MemberEditComponent,
+        PhotoEditorComponent,
+        MemberMessagesComponent,
+        AdminPanelComponent,
+        UserManagementComponent,
+        PhotoManagementComponent,
 
-      // Pipes
-      TimeAgoPipe
+        // Directives
+        HasRoleDirective,
+
+        // Pipes
+        TimeAgoPipe
    ],
    imports: [
-      BrowserModule,
-      BrowserAnimationsModule,
-      RouterModule.forRoot(appRoutes),
-      HttpClientModule,
-      FormsModule,
-      ReactiveFormsModule,
-      NgxGalleryModule,
-      FileUploadModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        RouterModule.forRoot(appRoutes),
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxGalleryModule,
+        FileUploadModule,
 
-      // Bootstrap
-      TabsModule.forRoot(),
-      BsDropdownModule.forRoot(),
-      BsDatepickerModule.forRoot(),
-      PaginationModule.forRoot(),
-      ButtonsModule.forRoot(),
+        // Bootstrap
+        TabsModule.forRoot(),
+        BsDropdownModule.forRoot(),
+        BsDatepickerModule.forRoot(),
+        PaginationModule.forRoot(),
+        ButtonsModule.forRoot(),
 
-      // Json web token handler
-      JwtModule.forRoot({
-          config: {
-              tokenGetter,
-              whitelistedDomains: ['localhost:5000'],
-              blacklistedRoutes: ['localhost:5000/api/auth']
-          }
-      })
+        // Json web token handler
+        JwtModule.forRoot({
+            config: {
+                tokenGetter,
+                whitelistedDomains: ['localhost:5000'],
+                blacklistedRoutes: ['localhost:5000/api/auth']
+            }
+        })
    ],
    providers: [
       AuthService,
+      AdminService,
       ErrorInterceptorProvider,
       PreventUnsavedChanges,
 
