@@ -23,12 +23,13 @@ namespace DatingApp.API
                 {
                     var context = services.GetRequiredService<DataContext>();
                     var userManager = services.GetRequiredService<UserManager<User>>();
+                    var roleManager = services.GetRequiredService<RoleManager<Role>>();
 
                     // Pending migrations
                     context.Database.Migrate();
 
                     // Seeds
-                    Seed.SeedUsers(userManager);
+                    Seed.SeedUsers(userManager, roleManager);
                 }
 
                 // Log to the terminal in case of a problem.
