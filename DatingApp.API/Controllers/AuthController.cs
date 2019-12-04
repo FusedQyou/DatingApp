@@ -9,8 +9,9 @@ using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.DTOs;
 using DatingApp.API.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -18,16 +19,19 @@ namespace DatingApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
-        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper)
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        public AuthController(IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
         {
-            this._mapper = mapper;
-            this._config = config;
-            this._repo = repo;
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _mapper = mapper;
+            _config = config;
         }
 
         [HttpPost("register")]
@@ -36,16 +40,17 @@ namespace DatingApp.API.Controllers
             string username = registrationUser.Username,
                    password = registrationUser.Password;
 
-            if (await _repo.UserExists(username))
-            {
-                return BadRequest($"Username \"{username}\" is already in use.");
+            var userToCreate = _mapper.Map<User>(registrationUser);
+
+            var result = await _userManager.CreateAsync(userToCreate, password);
+
+            if (!result.Succeeded) {
+                return BadRequest(result.Errors);
             }
 
-            var userToCreate = _mapper.Map<User>(registrationUser);
-            var createdUser = await _repo.Register(userToCreate, password);
-            var detailedUser = _mapper.Map<DetailedUser>(createdUser);
+            var detailedUser = _mapper.Map<DetailedUser>(userToCreate);
 
-            return CreatedAtRoute("GetUser", new { controller = "Users", id = createdUser.Id }, detailedUser);
+            return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, detailedUser);
         }
 
         [HttpPost("login")]
@@ -54,16 +59,27 @@ namespace DatingApp.API.Controllers
             string username = loginUser.Username,
                    password = loginUser.Password;
 
-            var repoUser = await _repo.Login(username, password);
+            var user = await _userManager.FindByNameAsync(username);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
 
-            if (repoUser == null)
-            {
+            if (!result.Succeeded) {
                 return Unauthorized();
             }
 
+            var tokenUser = _mapper.Map<TokenUser>(user);
+
+            return Ok(new
+            {
+                token = GenerateJwtToken(user),
+                user = tokenUser
+            });
+        }
+
+        private string GenerateJwtToken(User user)
+        {
             var claims = new[] {
-                new Claim(ClaimTypes.NameIdentifier, repoUser.Id.ToString()),
-                new Claim(ClaimTypes.Name, repoUser.Username)
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
@@ -77,14 +93,7 @@ namespace DatingApp.API.Controllers
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            var tokenUser = _mapper.Map<TokenUser>(repoUser);
-
-            return Ok(new
-            {
-                token = tokenHandler.WriteToken(token),
-                user = tokenUser
-            });
+            return tokenHandler.WriteToken(token);
         }
     }
 }

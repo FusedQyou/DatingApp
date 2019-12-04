@@ -7,13 +7,17 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Helpers;
+using DatingApp.API.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -58,20 +62,18 @@ namespace DatingApp.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configure the controllers with NewtonsoftJson.
-            // Also configure NewtonsoftJson to handle self referencing data properly.
-            services.AddControllers().AddNewtonsoftJson(opt => {
-                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            // Configure the identity service
+            IdentityBuilder builder = services.AddIdentityCore<User>(opt => {
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 4;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
             });
-
-            // Add corse, which will allow our Angular app to access the API from a different source.
-            services.AddCors();
-
-            // Cloudinary information
-            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
-
-            // Automapper to map data between DTOs
-            services.AddAutoMapper(typeof(DatingRepository).Assembly);
+            builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
+            builder.AddEntityFrameworkStores<DataContext>();
+            builder.AddRoleValidator<RoleValidator<Role>>();
+            builder.AddRoleManager<RoleManager<Role>>();
+            builder.AddSignInManager<SignInManager<User>>();
 
             // Add the authentication service including in the app
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
@@ -83,6 +85,29 @@ namespace DatingApp.API
                     ValidateAudience = false
                 };
             });
+
+            // Configure controllers.
+            // Add a policy here we require authorized identityusers unless specified anonymous.
+            // Also configure NewtonsoftJson to be included and handle self referencing data properly, just in case lazy loading doesn't fix it.
+            services.AddControllers(options => {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                
+                options.Filters.Add(new AuthorizeFilter(policy));
+
+            }).AddNewtonsoftJson(opt => {
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
+            // Add corse, which will allow our Angular app to access the API from a different source.
+            services.AddCors();
+
+            // Cloudinary information
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+
+            // Automapper to map data between DTOs
+            services.AddAutoMapper(typeof(DatingRepository).Assembly);
 
             // Add dependency injection support for our classes.
             services.AddScoped<IAuthRepository, AuthRepository>();
