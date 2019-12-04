@@ -39,6 +39,18 @@ namespace DatingApp.API.Data
                 .HasOne(u => u.Recipient)
                 .WithMany(m => m.MessagesReceived)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Photo>(entity =>
+            {
+                entity.Property(e => e.AsMainPhoto)
+                    .HasDefaultValueSql("false");
+            });
+
+            builder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.Created)
+                    .HasDefaultValueSql("Now()");
+            });
         }
     }
 }

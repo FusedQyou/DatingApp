@@ -36,7 +36,6 @@ export class MemberMessagesComponent implements OnInit {
                     for (const message of messages) {
                         // tslint:disable-next-line: triple-equals
                         if (message.isRead === false && message.recipientId == currentUserId) {
-                            console.log('Marking ' + message.content + ' as read...');
                             this.userService.markAsRead(currentUserId, message.id);
                         }
                     }

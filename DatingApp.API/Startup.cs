@@ -32,7 +32,27 @@ namespace DatingApp.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // When in development mode
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            // Inject our context as a service so we can use this to communicate with the database.
+            services.AddDbContext<DataContext>(x => x.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            
+            // Uncomment this when we start using Sqlite again. Just be sure to fix the migrations.
+            // services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+            ConfigureServices(services);
+        }
+
+        // When in production mode
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            // Inject our context as a service so we can use this to communicate with the database.
+            services.AddDbContext<DataContext>(x => x.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            
+            ConfigureServices(services);
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             // Configure the controllers with NewtonsoftJson.
@@ -49,9 +69,6 @@ namespace DatingApp.API
 
             // Automapper to map data between DTOs
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
-            
-            // Inject our context as a service so we can use this to communicate with the database.
-            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             // Add the authentication service including in the app
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {

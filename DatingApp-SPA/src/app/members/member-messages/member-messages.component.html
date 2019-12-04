@@ -16,7 +16,7 @@
                         <div class="header">
                             <strong class="primary-font">{{message.senderFirstName}}</strong>
                             <small class="text-muted float-right">
-                                <span class="fa fa-clock-o"> {{message.dateSend.toDateString() | timeAgo}}</span>
+                                <span class="fa fa-clock-o"> {{message.dateSend.toLocaleString() | timeAgo}}</span>
                             </small>
                         </div>
                         <p>{{message.content}}</p>
@@ -31,9 +31,9 @@
                     <div class="chat-body">
                         <div class="header">
                             <small class="text-muted">
-                                <span class="fa fa-clock-o"> {{message.dateSend.toDateString() | timeAgo}}</span>
-                                <span *ngIf="!message.isRead" class="text-danger">(unread)</span>
-                                <span *ngIf="message.isRead" class="text-success">(read {{message.dateRead.toDateString() | timeAgo}})</span>
+                                <span class="fa fa-clock-o"> {{message.dateSend.toLocaleString() | timeAgo}}</span>
+                                <span *ngIf="!message.isRead" class="text-danger"> (unread)</span>
+                                <span *ngIf="message.isRead" class="text-success"> (read {{message.dateRead.toLocaleString() | timeAgo}})</span>
                             </small>
                             <strong class="primary-font float-right mx-2">{{message.senderFirstName}}</strong>
                         </div>
