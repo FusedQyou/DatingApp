@@ -86,6 +86,12 @@ namespace DatingApp.API
                 };
             });
 
+            services.AddAuthorization(options => {
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+                options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
+            });
+
             // Configure controllers.
             // Add a policy here we require authorized identityusers unless specified anonymous.
             // Also configure NewtonsoftJson to be included and handle self referencing data properly, just in case lazy loading doesn't fix it.
